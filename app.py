@@ -13,7 +13,7 @@ def is_sanitized(input_str):
     return True
 
 
-@app.route('/input', methods=['POST'])
+@app.route('/v1/sanitized/input/', methods=['POST'])
 def check_sanitization():
     data = request.get_json()
     if data is not None and 'input' in data:
