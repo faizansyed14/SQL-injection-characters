@@ -1,17 +1,20 @@
+import re
 from flask import Flask, request, jsonify
+
 
 app = Flask(__name__)
 
+import re
+
 def is_sanitized(input_str):
-    # Check for common SQL injection patterns
-    sql_injection_patterns = ["SELECT", "INSERT", "UPDATE", "DELETE", "DROP", ";", "--"]
-    
-    for pattern in sql_injection_patterns:
-        if pattern in input_str:
-            return False
+    # Define a regex pattern to detect special characters
+    special_characters_pattern = r'[$&+,:;=?@#|\'<>.\-^*()%!]'
+
+    # Using re.search() to find a match
+    if re.search(special_characters_pattern, input_str):
+        return False
 
     return True
-
 
 @app.route('/v1/sanitized/input/', methods=['POST'])
 def check_sanitization():
